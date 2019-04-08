@@ -41,6 +41,7 @@
           <tr>
             <th class='text-center'>Name</th>
             <th class='text-center'>Email</th>
+            <th class='text-center'>Assignment File</th>
             <th class='text-center'>Sumitted Date</th>
           </tr>
         </thead>
@@ -49,6 +50,13 @@
             <tr>
               <td class='text-center'><%= assignment_user.user.name %></td>
               <td class='text-center'><%= assignment_user.user.email %></td>
+              <td class='text-center'>
+                <% if assignment_user.file&.attached? %>
+                  <%= link_to assignment_user.file.blob.filename, rails_blob_path(assignment_user.file, disposition: "attachment") %>
+                <% else %>
+                  N/A
+                <% end %>
+              </td>
               <td class='text-center'><%= assignment_user.submit_date.strftime('%a %b %Y at %T') %></td>
             </tr>
           </tbody>
