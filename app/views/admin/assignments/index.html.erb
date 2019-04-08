@@ -26,7 +26,7 @@
             <tr>
               <td class='text-center'><%= assignment.title %></td>
               <td class='text-center'><%= assignment.description %></td>
-              <td class='text-center'><%= assignment.submit_date.strftime('%a %b %Y till %T') %></td>
+              <td class='text-center'><%= assignment.due_date.strftime('%a %b %Y till %T') %></td>
               <td class='text-center'>
                 <% if assignment.sent_to_users == true %>
                   <%= link_to 'Uploaded', 'javascript:void(0)', class: 'btn btn-secondary' %>

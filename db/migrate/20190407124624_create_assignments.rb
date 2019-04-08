@@ -3,7 +3,7 @@ class CreateAssignments < ActiveRecord::Migration[5.2]
     create_table :assignments do |t|
       t.string :title
       t.text :description
-      t.datetime :submit_date
+      t.datetime :due_date
       t.boolean :sent_to_users, default: false
       t.timestamps
     end

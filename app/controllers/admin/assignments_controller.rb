@@ -47,6 +47,6 @@ class Admin::AssignmentsController < Admin::BaseController
     end
 
     def assignment_params
-      params.require(:assignment).permit(:title, :description, :submit_date)
+      params.require(:assignment).permit(:title, :description, :due_date)
     end
 end

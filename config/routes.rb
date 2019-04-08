@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   }
 
 	root 'dashboards#index'
-	resources :users
+	resources :users do
+    collection do
+      post :upload_file
+    end
+  end
 
 	namespace :admin do
     resources :assignments do
