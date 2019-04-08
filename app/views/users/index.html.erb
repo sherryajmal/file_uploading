@@ -15,7 +15,7 @@
           <tr>
             <th class='text-center'>Title</th>
             <th class='text-center'>Description</th>
-            <th class='text-center'>Submit Date</th>
+            <th class='text-center'>Due Date</th>
             <th class='text-center'>Uploaded File</th>
             <th class='text-center'>Upload Assignment</th>    
           </tr>
@@ -24,7 +24,7 @@
           <tbody>
             <tr>
               <td class='text-center'><%= assignment.title %></td>
-              <td class='text-center'><%= assignment.description %></td>
+              <td class='text-center'><%= assignment.description.truncate(20) %></td>
               <td class='text-center'><%= assignment.due_date.strftime('%a %b %Y till %T') %></td>
               <td class='text-center'>
                 <% if assignment.assignment_users.where(user_id: current_user.id)&.first&.file&.attached? %>
