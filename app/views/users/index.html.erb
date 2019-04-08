@@ -30,16 +30,12 @@
               </td>
               <td class='text-center'>
                 <%= form_for :assignment_user, url: upload_file_users_path(assignment_id: assignment), method: :post, html: { class: 'form-horizontal', 'data-parsley-validate': '' } do |f| %>
-
-                  <div class="form-group">
-                    <div class="col-sm-12">
-                      <%= f.file_field :files, multiple: true, required: true, class: 'form-control' %>
-                    </div>
+                  <div class="input-group">
+                     <%= f.file_field :files, required: true, class: 'form-control' %>
+                     <span class="input-group-btn">
+                          <%= f.submit 'Upload', class: 'btn btn-primary btn-group' %>
+                     </span>
                   </div>
-                  <div class="form-group">
-                    <div class="col-xs-12">
-                      <%= f.submit class: 'btn btn-primary float-left' %>
-                    </div>
                 <% end %>
               </td>
             </tr>
