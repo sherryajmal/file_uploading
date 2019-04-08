@@ -27,14 +27,17 @@
               <td class='text-center'><%= assignment.description %></td>
               <td class='text-center'><%= assignment.due_date.strftime('%a %b %Y till %T') %></td>
               <td class='text-center'>
+                <% if assignment.assignment_users.first.file.attached? %>
+                  <%= link_to assignment.assignment_users.first.file.blob.filename, rails_blob_path(assignment.assignment_users.first.file, disposition: "attachment") %>
+                <% end %>
               </td>
               <td class='text-center'>
-                <%= form_for :assignment_user, url: upload_file_users_path(assignment_id: assignment), method: :post, html: { class: 'form-horizontal', 'data-parsley-validate': '' } do |f| %>
+                <%= form_for :assignment_user, local: true, url: upload_file_users_path(assignment_id: assignment), method: :post, html: { class: 'form-horizontal', 'data-parsley-validate': '' } do |f| %>
                   <div class="input-group">
-                     <%= f.file_field :files, required: true, class: 'form-control' %>
-                     <span class="input-group-btn">
-                          <%= f.submit 'Upload', class: 'btn btn-primary btn-group' %>
-                     </span>
+                    <%= f.file_field :file, required: true, class: 'form-control' %>
+                    <span class="input-group-btn">
+                      <%= f.submit 'Upload', class: 'btn btn-primary btn-group' %>
+                    </span>
                   </div>
                 <% end %>
               </td>
