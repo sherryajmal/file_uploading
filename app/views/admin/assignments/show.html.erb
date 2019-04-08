@@ -51,7 +51,7 @@
         <% @assignment_users.each do |assignment_user| %>
           <tbody>
             <tr>
-              <td class='text-center'><%= assignment_user.user.name %></td>
+              <td class='text-center'><%= assignment_user.user.name.humanize %></td>
               <td class='text-center'><%= assignment_user.user.email %></td>
               <td class='text-center'>
                 <% if assignment_user.file&.attached? %>

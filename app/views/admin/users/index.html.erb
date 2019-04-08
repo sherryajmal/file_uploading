@@ -20,7 +20,7 @@
 				<% @users.each do |user| %>
 					<tbody>
 						<tr>
-							<td class='text-center'><%= user.name %></td>
+							<td class='text-center'><%= user.name.humanize %></td>
 							<td class='text-center'><%= user.email %></td>
 							<td class='text-center'><%= user.created_at.strftime('%a %b %Y at %T') %></td>
 							<td class='text-center'>
