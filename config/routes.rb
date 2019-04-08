@@ -6,5 +6,17 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     registrations: 'users/registrations'
   }
+
 	root 'dashboards#index'
+	resources :users
+
+	namespace :admin do
+    resources :assignments do
+    	member do
+	      post :sent_to_users
+    	end
+    end
+    resources :dashboards, only: [:index]
+    resources :users, only: [:index, :destroy]
+  end
 end

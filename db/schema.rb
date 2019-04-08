@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_06_191058) do
+ActiveRecord::Schema.define(version: 2019_04_07_124624) do
+
+  create_table "assignments", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "submit_date"
+    t.boolean "sent_to_users", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
