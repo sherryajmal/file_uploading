@@ -25,7 +25,7 @@
           <tbody>
             <tr>
               <td class='text-center'><%= assignment.title %></td>
-              <td class='text-center'><%= assignment.description %></td>
+              <td class='text-center'><%= assignment.description.truncate(20) %></td>
               <td class='text-center'><%= assignment.due_date.strftime('%a %b %Y till %T') %></td>
               <td class='text-center'>
                 <% if assignment.sent_to_users == true %>
