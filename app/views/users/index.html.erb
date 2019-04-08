@@ -26,8 +26,8 @@
               <td class='text-center'><%= assignment.title %></td>
               <td class='text-center'><%= assignment.description %></td>
               <td class='text-center'><%= assignment.due_date.strftime('%a %b %Y till %T') %></td>
-              <td class='text-center'>
-              </td>
+              <% debugger %>
+              <td class='text-center'><%= %></td>
               <td class='text-center'>
                 <%= form_for :assignment_user, url: upload_file_users_path(assignment_id: assignment), method: :post, html: { class: 'form-horizontal', 'data-parsley-validate': '' } do |f| %>
 

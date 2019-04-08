@@ -26,6 +26,10 @@ class Admin::AssignmentsController < Admin::BaseController
     end
   end
 
+  def show
+    @assignment_users = @assignment.assignment_users
+  end
+
   def destroy
     if @assignment.destroy
       flash[:notice] = 'Assignment successfully deleted'
