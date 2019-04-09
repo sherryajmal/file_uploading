@@ -25,7 +25,7 @@
             <tr>
               <td class='text-center'><%= assignment.title %></td>
               <td class='text-center'><%= assignment.description.truncate(20) %></td>
-              <td class='text-center'><%= assignment.due_date.localtime.strftime('%a %b %Y till %T') %></td>
+              <td class='text-center'><%= assignment.due_date.strftime('%a %b %Y till %T') %></td>
               <td class='text-center'>
                 <% if user_assignment(assignment)&.attached? %>
                   <%= link_to user_assignment(assignment)&.blob.filename, rails_blob_path(assignment.assignment_users.first.file, disposition: "attachment") %>
