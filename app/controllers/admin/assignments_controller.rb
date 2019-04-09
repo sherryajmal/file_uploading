@@ -12,6 +12,8 @@ class Admin::AssignmentsController < Admin::BaseController
   def create
     @assignment = Assignment.new(assignment_params)
     if @assignment.save
+      dir = "#{Rails.root}/public/#{@assignment.title}"
+      FileUtils.mkdir_p(dir) unless File.directory?(dir)
       redirect_to admin_assignments_path, notice: 'Assignment successfully created'
     else
       render :new

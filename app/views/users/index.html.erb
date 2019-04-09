@@ -34,8 +34,9 @@
                 <% end %>
               </td>
               <td class='text-center'>
-                <%= form_for :assignment_user, local: true, url: upload_file_users_path(assignment_id: assignment), method: :post, html: { class: 'form-horizontal', 'data-parsley-validate': '' } do |f| %>
+                <%= form_for :assignment_user, local: true, url: upload_file_users_path, method: :post, html: { class: 'form-horizontal', 'data-parsley-validate': '' } do |f| %>
                   <div class="input-group">
+                    <%= f.hidden_field :assignment_id, value: assignment.id %>
                     <%= f.file_field :file, required: true, class: 'form-control' %>
                     <span class="input-group-btn">
                       <%= f.submit 'Upload', class: 'btn btn-primary btn-group' %>
