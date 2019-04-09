@@ -6,6 +6,6 @@ class User < ApplicationRecord
   enum role: [:user, :admin]  
 
 
-  has_many :assignment_users
+  has_many :assignment_users, dependent: :destroy
   has_many :assignments, through: :assignment_users   
 end

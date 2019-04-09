@@ -60,7 +60,7 @@
                   Not Uploaded yet
                 <% end %>
               </td>
-              <td class='text-center'><%= assignment_user.submit_date.strftime('%a %b %Y at %T') %></td>
+              <td class='text-center'><%= assignment_user.submit_date.localtime.strftime('%a %b %Y at %T') %></td>
             </tr>
           </tbody>
         <% end %>
