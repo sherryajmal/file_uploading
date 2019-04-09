@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   def save_file_separate_folder
     assignment = Assignment.find_by(id: params[:assignment_user][:assignment_id])
     uploaded_io = params[:assignment_user][:file]
-    File.open(Rails.root.join('public', "#{assignment.title}", uploaded_io.original_filename), 'wb') do |file|
+    File.open(Rails.root.join('public', "#{assignment.title}", "#{current_user.name}_#{uploaded_io.original_filename}"), 'wb') do |file|
       file.write(uploaded_io.read)
     end
   end
