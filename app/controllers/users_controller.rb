@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     dest_folder = "#{Rails.root}/public/#{assignment.title}"
     FileUtils.mkdir_p(dest_folder) unless File.directory?(dest_folder)
     filename = ActiveStorage::Blob.service.path_for(assignment.assignment_users.first.file.blob.key)
-    FileUtils.cp(filename, "#{dest_folder}/#{uploaded_io.original_filename}")
+    FileUtils.cp(filename, "#{dest_folder}/#{current_user.name}_#{uploaded_io.original_filename}")
   end
 
   private
