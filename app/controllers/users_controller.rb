@@ -21,9 +21,10 @@ class UsersController < ApplicationController
   def save_file_separate_folder
     assignment = Assignment.find_by(id: params[:assignment_user][:assignment_id])
     uploaded_io = params[:assignment_user][:file]
-    File.open(Rails.root.join('public', "#{assignment.title}", "#{current_user.name}_#{uploaded_io.original_filename}"), 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
+    dest_folder = "#{Rails.root}/public/#{assignment.title}"
+    FileUtils.mkdir_p(dest_folder) unless File.directory?(dest_folder)
+    filename = ActiveStorage::Blob.service.path_for(assignment.assignment_users.first.file.blob.key)
+    FileUtils.cp(filename, "#{dest_folder}/#{uploaded_io.original_filename}")
   end
 
   private
