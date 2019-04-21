@@ -24,6 +24,24 @@
           <th class='text-center'>Due Date</th>
           <td class='text-center'><%= @assignment.due_date.strftime('%a %d %b %Y by %l:%M %p') %></td>
         </tr>
+        <tr>
+          <th class='text-center'>Command</th>
+          <td class='text-center'><%= @assignment.command %></td>
+        </tr>
+        <tr>
+          <th class='text-center'>Argument</th>
+          <td class='text-center'><%= @assignment.argument %></td>
+        </tr>
+        <tr>
+          <th class='text-center'>Grading Script</th>
+          <td class='text-center'>
+            <% if @assignment.grading_script_file&.attached? %>
+              <%= link_to @assignment.grading_script_file.blob.filename, rails_blob_path(@assignment.grading_script_file, disposition: "attachment") %>
+            <% else %>
+              Not Uploaded yet
+            <% end %>
+          </td>
+        </tr>
       </table>
     <% else %>
       <h4 class='text-center'>No details</h4>

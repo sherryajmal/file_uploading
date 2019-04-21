@@ -53,6 +53,6 @@ class Admin::AssignmentsController < Admin::BaseController
     end
 
     def assignment_params
-      params.require(:assignment).permit(:title, :description, :due_date)
+      params.require(:assignment).permit(:title, :description, :due_date, :command, :argument, :grading_script_file)
     end
 end
