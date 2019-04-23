@@ -33,7 +33,7 @@ class UsersController < ApplicationController
 
   def run_script(assignment_user)
     assignment         = Assignment.find_by(id: params[:assignment_user][:assignment_id])
-    argument           = assignment.argument
+    argument           = assignment.argument.present? ? assignment.argument : " "
     command            = assignment.command
     student_assignment = ActiveStorage::Blob.service.path_for(assignment_user.file.blob.key)
     grading_script     = ActiveStorage::Blob.service.path_for(assignment.grading_script_file.blob.key)
