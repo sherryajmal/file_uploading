@@ -29,7 +29,7 @@
               <td class='text-center'><%= assignment.description.truncate(20) %></td>
               <td class='text-center'><%= assignment.due_date.strftime('%a %d %b %Y by %l:%M %p') %></td>
               <td class='text-center'>
-                <% if user_rubric(assignment).present? %>
+                <% if user_rubric(assignment).attached? %>
                   <%= link_to user_rubric(assignment)&.blob.filename, rails_blob_path(assignment.assignment_users.first.rubric, disposition: "attachment") %>
                 <% else %>
                   Not Available yet
