@@ -16,6 +16,8 @@
             <th class='text-center'>Title</th>
             <th class='text-center'>Description</th>
             <th class='text-center'>Due Date</th>
+            <th class='text-center'>Rubric</th>
+            <th class='text-center'>Grade</th>
             <th class='text-center'>Uploaded File</th>
             <th class='text-center'>Upload Assignment</th>    
           </tr>
@@ -26,6 +28,14 @@
               <td class='text-center'><%= assignment.title %></td>
               <td class='text-center'><%= assignment.description.truncate(20) %></td>
               <td class='text-center'><%= assignment.due_date.strftime('%a %d %b %Y by %l:%M %p') %></td>
+              <td class='text-center'>
+                <% if user_rubric(assignment).present? %>
+                  <%= link_to user_rubric(assignment)&.blob.filename, rails_blob_path(assignment.assignment_users.first.rubric, disposition: "attachment") %>
+                <% else %>
+                  Not Available yet
+                <% end %>
+              </td>
+              <td class='text-center'><%= assignment.assignment_users.first&.grade.present? ? assignment.assignment_users.first.grade : 'Not Available yet' %></td>
               <td class='text-center'>
                 <% if user_assignment(assignment)&.attached? %>
                   <%= link_to user_assignment(assignment)&.blob.filename, rails_blob_path(assignment.assignment_users.first.file, disposition: "attachment") %>

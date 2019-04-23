@@ -166,6 +166,7 @@ GEM
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
     ruby_dep (1.5.0)
+    rubysl-open3 (2.0.0)
     rubyzip (1.2.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -244,6 +245,7 @@ DEPENDENCIES
   mini_racer
   puma (~> 3.11)
   rails (~> 5.2.2)
+  rubysl-open3 (~> 2.0)
   sass-rails (~> 5.0)
   selenium-webdriver
   spring
