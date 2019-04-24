@@ -6,4 +6,8 @@ module UsersHelper
   def user_rubric(assignment)
     assignment.assignment_users.find_by(user_id: current_user.id)&.rubric
   end
+
+  def user_grade(assignment)
+    assignment.assignment_users.find_by(user_id: current_user.id)&.grade
+  end
 end
