@@ -16,6 +16,8 @@ class UsersController < ApplicationController
       save_file_separate_folder
       run_script(@assignment_user)
       flash[:notice] = 'File created successfully'
+    elsif @assignment_user.file.blob.byte_size > 1000
+      flash[:alert] = 'File size should be less than or equal to 100kb'
     else
       flash[:alert] = 'File not created successfully'
     end   

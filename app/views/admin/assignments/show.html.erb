@@ -42,6 +42,16 @@
             <% end %>
           </td>
         </tr>
+        <tr>
+          <th class='text-center'>Download Grades</th>
+          <td class='text-center'>
+            <% if @assignment_users.present? %>
+              <%= link_to 'Download as Excel', download_as_excel_admin_assignment_path(@assignment, format: :xlsx) %>
+            <% else %>
+              No information available yet
+            <% end %>
+          </td>
+        </tr>
       </table>
     <% else %>
       <h4 class='text-center'>No details</h4>

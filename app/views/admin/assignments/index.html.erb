@@ -31,7 +31,7 @@
                 <% if assignment.sent_to_users == true %>
                   <%= link_to 'Uploaded', 'javascript:void(0)', class: 'btn btn-secondary' %>
                 <% else %>
-                  <%= link_to 'Upload', sent_to_users_admin_assignment_path(assignment), method: :post, class: 'btn btn-secondary' %>
+                  <%= link_to 'Upload', sent_to_users_admin_assignment_path(assignment), method: :post, class: 'flashing btn btn-secondary' %>
                 <% end %>
               </td>
               <td class='text-center'><%= link_to 'Edit', edit_admin_assignment_path(assignment), class: 'btn btn-warning' %>

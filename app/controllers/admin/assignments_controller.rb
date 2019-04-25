@@ -1,5 +1,5 @@
 class Admin::AssignmentsController < Admin::BaseController
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :sent_to_users]
+  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :sent_to_users, :download_as_excel]
 
   def index
     @assignments = Assignment.all
@@ -44,6 +44,15 @@ class Admin::AssignmentsController < Admin::BaseController
   def sent_to_users
     @assignment.update(sent_to_users: true)
     redirect_to admin_assignments_path, notice: 'Assignment sent to all users'
+  end
+
+  def download_as_excel
+    @assignment_users = @assignment.assignment_users
+
+    respond_to do |format| 
+       format.xlsx {render xlsx: 'download_as_excel',filename: "#{@assignment.title}_grades.xlsx"}
+    end
+
   end
 
   private

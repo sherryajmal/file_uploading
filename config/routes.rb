@@ -18,7 +18,8 @@ Rails.application.routes.draw do
     resources :assignments do
     	member do
 	      post :sent_to_users
-    	end
+        get :download_as_excel
+      end
     end
     resources :dashboards, only: [:index]
     resources :users, only: [:index, :destroy]
