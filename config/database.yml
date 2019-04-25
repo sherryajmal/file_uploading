@@ -19,3 +19,20 @@ development:
   pool: 5
   username: pgsql
   password: pgsql
+
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: rails_api_test
+  host: localhost
+  pool: 5
+  username: pgsql
+  password: pgsql
+
+
+production:
+  <<: *default
+  database: rails_api_production
+  username: rails_api
+  password: <%= ENV['RAILS_API_DATABASE_PASSWORD'] %>
