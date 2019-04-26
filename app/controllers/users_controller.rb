@@ -45,10 +45,10 @@ class UsersController < ApplicationController
     student_assignment = ActiveStorage::Blob.service.path_for(assignment_user.file.blob.key)
     grading_script     = ActiveStorage::Blob.service.path_for(assignment.grading_script_file.blob.key)
     FileUtils.cd("#{Rails.root}/temp/#{assignment.title}")
-    command = "#{command} #{grading_script} #{argument} #{student_assignment}"
+    cmd = "#{command} #{grading_script} #{argument} #{student_assignment}"
     begin
       stdout, stderr, status = Timeout::timeout(5) do
-         Open3.capture3(command)
+         Open3.capture3(cmd)
       end
       @timeout = false
     rescue Timeout::Error => e
