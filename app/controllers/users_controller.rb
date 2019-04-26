@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   require 'open3'
+  require 'timeout'
 
   def index
     @assignments = Assignment.all.where(sent_to_users: true)
@@ -15,11 +16,15 @@ class UsersController < ApplicationController
     if @assignment_user.save
       save_file_separate_folder
       run_script(@assignment_user)
-      flash[:notice] = 'File created successfully'
+      if @timeout
+        flash[:alert] = 'Assignment not saved successfully due to error in your code'
+      else
+        flash[:notice] = 'File created successfully'
+      end
     elsif @assignment_user.file.blob.byte_size > 1000
-      flash[:alert] = 'File size should be less than or equal to 100kb'
+      flash[:alert] = 'Assignment size should be less than or equal to 100kb'
     else
-      flash[:alert] = 'File not created successfully'
+      flash[:alert] = 'Assignment not created successfully'
     end   
     redirect_to users_path  
   end
@@ -40,26 +45,39 @@ class UsersController < ApplicationController
     student_assignment = ActiveStorage::Blob.service.path_for(assignment_user.file.blob.key)
     grading_script     = ActiveStorage::Blob.service.path_for(assignment.grading_script_file.blob.key)
     FileUtils.cd("#{Rails.root}/temp/#{assignment.title}")
-    stdout, stderr, status = Open3.capture3("#{command} #{grading_script} #{argument} #{student_assignment}")
-    FileUtils.cd("#{Rails.root}")
-    assignment_user.grade = stdout.to_f
-    dest_folder = "#{Rails.root}/temp/#{assignment.title}/#{current_user.name}_#{assignment.title}_rubric"
-    File.open(dest_folder, "w") { |file| file.puts "#{stderr}"}
-    assignment_user.rubric.attach(
-      io: File.open(dest_folder),
-      filename: "#{current_user.name}_#{assignment.title}_rubric"
-    )
-    assignment_user.save!
+    command = "#{command} #{grading_script} #{argument} #{student_assignment}"
+    begin
+      stdout, stderr, status = Timeout::timeout(5) do
+         Open3.capture3(command)
+      end
+      @timeout = false
+    rescue Timeout::Error => e
+      @timeout = true
+    end
+    if @timeout
+      assignment_user.destroy
+    else
+      FileUtils.cd("#{Rails.root}")
+      assignment_user.grade = stdout.to_f
+      dest_folder = "#{Rails.root}/temp/#{assignment.title}/#{current_user.name}_#{assignment.title}_rubric"
+      File.open(dest_folder, "w") { |file| file.puts "#{stderr}"}
+      assignment_user.rubric.attach(
+        io: File.open(dest_folder),
+        filename: "#{current_user.name}_#{assignment.title}_rubric"
+      )
+      assignment_user.save
 
-    uploaded_file = params[:assignment_user][:file]
-    destination = "#{Rails.root}/public/#{assignment.title}"
-    FileUtils.mkdir_p(destination) unless File.directory?(destination)
+      uploaded_file = params[:assignment_user][:file]
+      destination = "#{Rails.root}/public/#{assignment.title}"
+      FileUtils.mkdir_p(destination) unless File.directory?(destination)
 
-    filename = ActiveStorage::Blob.service.path_for(assignment.assignment_users.first.file.blob.key)
-    FileUtils.cp(filename, "#{destination}/#{current_user.name}_#{uploaded_file.original_filename}")
+      filename = ActiveStorage::Blob.service.path_for(assignment.assignment_users.first.file.blob.key)
+      FileUtils.cp(filename, "#{destination}/#{current_user.name}_#{uploaded_file.original_filename}")
 
-    filename = ActiveStorage::Blob.service.path_for(assignment_user.rubric.blob.key)
-    FileUtils.cp(filename, "#{destination}/#{current_user.name}_#{assignment.title}_rubric}")
+      filename = ActiveStorage::Blob.service.path_for(assignment_user.rubric.blob.key)
+      FileUtils.cp(filename, "#{destination}/#{current_user.name}_#{assignment.title}_rubric}")
+    end
+    return @timeout
   end
 
   private
