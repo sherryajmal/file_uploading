@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       save_file_separate_folder
       run_script(@assignment_user)
       if @timeout
-        flash[:alert] = 'Assignment not saved successfully due to error in your code'
+        flash[:alert] = 'Terminated due to timeout (check for infinite loop).'
       else
         flash[:notice] = 'File created successfully'
       end
@@ -54,10 +54,13 @@ class UsersController < ApplicationController
     rescue Timeout::Error => e
       @timeout = true
     end
+
+    destination = "#{Rails.root}/public/#{assignment.title}"
+    FileUtils.mkdir_p(destination) unless File.directory?(destination)
+
     if @timeout
-      assignment_user.destroy
+      assignment_user.grade = -1.0
     else
-      FileUtils.cd("#{Rails.root}")
       assignment_user.grade = stdout.to_f
       dest_folder = "#{Rails.root}/temp/#{assignment.title}/#{current_user.name}_#{assignment.title}_rubric"
       File.open(dest_folder, "w") { |file| file.puts "#{stderr}"}
@@ -65,18 +68,16 @@ class UsersController < ApplicationController
         io: File.open(dest_folder),
         filename: "#{current_user.name}_#{assignment.title}_rubric"
       )
-      assignment_user.save
-
-      uploaded_file = params[:assignment_user][:file]
-      destination = "#{Rails.root}/public/#{assignment.title}"
-      FileUtils.mkdir_p(destination) unless File.directory?(destination)
-
-      filename = ActiveStorage::Blob.service.path_for(assignment.assignment_users.first.file.blob.key)
-      FileUtils.cp(filename, "#{destination}/#{current_user.name}_#{uploaded_file.original_filename}")
-
       filename = ActiveStorage::Blob.service.path_for(assignment_user.rubric.blob.key)
       FileUtils.cp(filename, "#{destination}/#{current_user.name}_#{assignment.title}_rubric}")
     end
+
+    assignment_user.save
+    uploaded_file = params[:assignment_user][:file]
+
+    filename = ActiveStorage::Blob.service.path_for(assignment.assignment_users.first.file.blob.key)
+    FileUtils.cp(filename, "#{destination}/#{current_user.name}_#{uploaded_file.original_filename}")
+
     return @timeout
   end
 
