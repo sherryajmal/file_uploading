@@ -26,8 +26,12 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+
 gem 'devise'
+gem 'omniauth-oktaoauth'
+gem 'activerecord-session_store'
 gem "figaro"
+
 gem 'toastr_rails'
 gem 'rubysl-open3', '~> 2.0'
 gem 'file_validators'
