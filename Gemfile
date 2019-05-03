@@ -28,8 +28,6 @@ gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'devise'
 gem "figaro"
-gem 'omniauth-facebook'
-gem 'omniauth-google-oauth2'
 gem 'toastr_rails'
 gem 'rubysl-open3', '~> 2.0'
 gem 'file_validators'
