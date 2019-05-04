@@ -7,14 +7,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # You should also create an action method in this controller like this:
   # def twitter
   # end
-
-  def oktaoauth
-    # You need to implement the method below in your model (e.g. app/models/user.rb)
-    @user = User.from_omniauth(request.env["omniauth.auth"])
-    sign_in(@user)
-    redirect_to root_path
-  end
-
+  
   # More info at:
   # https://github.com/plataformatec/devise#omniauth
 

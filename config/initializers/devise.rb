@@ -4,7 +4,6 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
 
-  require 'omniauth-oktaoauth'
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
@@ -33,6 +32,14 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
+
+  config.cas_base_url = "https://login.umn.edu"
+  # you can override these if you need to, but cas_base_url is usually enough
+  config.cas_login_url = "https://idp/profile/cas/login"
+  config.cas_create_user = true
+  config.cas_logout_url = "https://idp/profile/cas/logout"
+  config.cas_validate_url = "https://idp/profile/cas/serviceValidate"
+  config.cas_username_column = 'email'
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -174,17 +181,6 @@ Devise.setup do |config|
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
-
-  config.omniauth(:oktaoauth,
-                ENV['OKTA_CLIENT_ID'],
-                ENV['OKTA_CLIENT_SECRET'],
-                :scope => 'openid profile email',
-                :fields => ['profile', 'email'],
-                :client_options => {site: ENV['OKTA_ISSUER'], authorize_url: ENV['OKTA_ISSUER'] + "/v1/authorize", token_url: ENV['OKTA_ISSUER'] + "/v1/token"},
-                :redirect_uri => ENV["OKTA_REDIRECT_URI"],
-                :auth_server_id => ENV['OKTA_AUTH_SERVER_ID'],
-                :issuer => ENV['OKTA_ISSUER'],
-                :strategy_class => OmniAuth::Strategies::Oktaoauth)
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
