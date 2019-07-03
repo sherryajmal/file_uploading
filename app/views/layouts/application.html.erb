@@ -12,7 +12,10 @@
   <body>
     <p class="notice"></p>
     <p class="alert"></p>
-    <%= render 'toastr_rails/flash' %> 
+    <% if session["flash"]["flashes"]["alert"] == "You need to sign in or sign up before continuing." %>
+      <% session["flash"] = [] %>
+    <% end %>
+    <%= render 'toastr_rails/flash' %>
     <%= yield %>
   </body>
 </html>
